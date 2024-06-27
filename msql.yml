@@ -1,0 +1,21 @@
+---
+- name: install MySQL
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install MySQL Server
+      yum:
+        name: mysql
+        state: present
+
+    - name: Install MySQL Client
+      yum:
+        name: mysql
+        state: present
+
+    - name: Start MySQL Service
+      service:
+        name: mysql
+        state: started
+        enable: yes
