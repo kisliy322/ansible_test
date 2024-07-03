@@ -1,0 +1,29 @@
+---
+- name: Install Postfix
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update package cache
+      yum:
+        update_cache: yes
+
+    - name: Install Postfix
+      yum:
+        name: postfix
+        state: present
+      tags:
+        - init postfix
+
+  handlers:
+    - name: Restart Postfix
+      service:
+        name: postfix
+        state: restarted
+
+    - name: Delete Postfix
+      yum:
+        name: postfix
+        state: delete
+      tags:
+        - drop postfix
