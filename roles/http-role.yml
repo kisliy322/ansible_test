@@ -1,0 +1,20 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+  become: yes
+
+- name: Ensure nginx is running and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Configure nginx to pass PHP requests to PHP-FPM
+  template:
+    src: nginx-php-fpm.conf.j2
+    dest: /etc/nginx/sites-available/default
+  notify: Reload nginx
+  become: yes
