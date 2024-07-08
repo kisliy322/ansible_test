@@ -1,0 +1,33 @@
+---
+- name: Create Group
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Create group
+      group:
+        name: superusers
+        state: present
+
+- name: Make sure we have a 'superusers' group
+  group:
+    name: superusers
+    state: present
+
+- name: Allow 'superusers' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%superusers'
+    line: '%superusers ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: Add sudoers users to superusers group
+  user:
+    name="{{ item }}"
+    groups=superusers
+    append=yes
+    state=present
+    createhome=yes
+  loop:
+    - user2
+    - user3
