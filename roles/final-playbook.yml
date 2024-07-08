@@ -1,0 +1,16 @@
+---
+- name: Setup nginx
+  hosts: nginx_servers  # Замените на группу хостов, где у вас установлен nginx
+  become: yes
+  roles:
+    - users
+    - http
+    
+- name: Setup PHP-FPM
+  hosts: php_servers  # Замените на группу хостов, где у вас установлен PHP-FPM
+  become: yes
+  vars:
+    php_version: "7.4"  # Укажите вашу версию PHP
+  roles:
+    - users
+    - php
