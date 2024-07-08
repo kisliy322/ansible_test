@@ -1,0 +1,20 @@
+---
+- name: Install PHP-FPM
+  apt:
+    name: php-fpm
+    state: present
+  become: yes
+
+- name: Ensure PHP-FPM is running and enabled
+  service:
+    name: php{{ php_version }}-fpm
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Configure PHP-FPM to listen on port 9000
+  template:
+    src: php-fpm.conf.j2
+    dest: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
+  notify: Reload PHP-FPM
+  become: yes
