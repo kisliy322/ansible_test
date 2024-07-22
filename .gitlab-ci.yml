@@ -1,0 +1,10 @@
+stages:
+  - run_sql_script
+
+run_sql_script:
+  stage: run_sql_script
+  script:
+    - mysql -h <host> -u <username> -p<password> <database> < update_data.sql
+  only:
+    changes:
+      - update_data.sql
