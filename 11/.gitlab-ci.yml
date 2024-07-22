@@ -7,4 +7,4 @@ run_sql_script:
     - mysql -h <host> -u <username> -p<password> <database> < update_data.sql
   only:
     changes:
-      - update_data.sql
+      - script.sql
